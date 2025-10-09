@@ -1,26 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #ffffff;
+  --bg-secondary: oklch(62.3% 0.214 259.815);
+  --text: hsl(0, 0%, 5%);
+  --text-secondary: hsl(0, 0%, 100%);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg: var(--bg);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-btn: var(--btn);
+  --color-btn-accent: var(--btn-accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: hsl(240, 12%, 7%);
+    --bg-secondary: oklch(37.9% 0.146 265.522);
+    --text: hsl(0, 0%, 95%);
+    --text-secondary: hsl(0, 0%, 100%);
   }
-}
+} */
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
+}
+@layer components {
+  .btn {
+    @apply font-sans bg-blue-500 text-white rounded hover:bg-blue-600 /*  dark:bg-blue-900 dark:hover:bg-blue-800 */ max-h-min ease-in-out p-4 font-bold text-xl;
+  }
+  .nav-link {
+    @apply text-lg font-sans text-text-secondary hover:text-blue-300;
+  }
 }
