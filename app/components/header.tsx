@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { checkRole } from "@/lib/roles";
 import {
   SignInButton,
   SignUpButton,
@@ -7,38 +8,43 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
-function Header() {
+async function Header() {
+  const isAdmin = await checkRole("admin");
   return (
     <header className="flex items-center justify-between p-4 bg-bg-secondary text-text-secondary font-bold">
       <h1 className="text-2xl">
         <Link href={"/"}>Scheduler</Link>
       </h1>
-      <nav>
-        <ul className="flex space-x-4">
-          <li>
-            <Link href={"/about"} className="nav-link">
-              About
-            </Link>
-          </li>
-          <li>
-            <Link href={"/contact"} className="nav-link">
-              Contact
-            </Link>
-          </li>
-          <li>
-            <SignedOut>
-              <SignInButton>
-                <SignUpButton>
-                  <button className="nav-link">Sign up</button>
-                </SignUpButton>
-              </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </li>
-        </ul>
-      </nav>
+      <SignedIn>
+        <nav>
+          <ul className="flex gap-4">
+            <li>
+              <Link href={""}>My Schedule</Link>
+            </li>
+
+            {isAdmin && (
+              <>
+                <li>
+                  <Link href={"/schedules"}>Schedules</Link>
+                </li>
+                <li>
+                  <Link href={"/employees"}>Employees</Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </nav>
+      </SignedIn>
+      <SignedOut>
+        <SignInButton>
+          <SignUpButton>
+            <button className="nav-link">Log in</button>
+          </SignUpButton>
+        </SignInButton>
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
     </header>
   );
 }
