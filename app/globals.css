@@ -37,6 +37,6 @@ body {
     @apply font-sans bg-blue-500 text-white rounded hover:bg-blue-600 /*  dark:bg-blue-900 dark:hover:bg-blue-800 */ max-h-min ease-in-out p-4 font-bold text-xl;
   }
   .nav-link {
-    @apply text-lg font-sans text-text-secondary hover:text-blue-300;
+    @apply text-lg font-sans text-text-secondary hover:text-blue-300 hover:cursor-pointer;
   }
 }

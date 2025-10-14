@@ -1,3 +1,4 @@
+import { SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 export default function Home() {
@@ -15,12 +16,18 @@ export default function Home() {
       </p>
 
       <div className="flex gap-4 justify-center mt-8">
-        <Link className="btn" href="/login">
-          Login
-        </Link>
-        <Link className="btn" href="/register">
-          Register
-        </Link>
+        <SignedOut>
+          <SignInButton>
+            <SignUpButton>
+              <button className="btn">Sign in</button>
+            </SignUpButton>
+          </SignInButton>
+          <SignInButton>
+            <SignUpButton>
+              <button className="btn">Register</button>
+            </SignUpButton>
+          </SignInButton>
+        </SignedOut>
         <Link className="btn" href="/about">
           Read More
         </Link>
