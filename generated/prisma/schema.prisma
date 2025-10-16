@@ -26,14 +26,16 @@ model User {
 }
 
 model Shift {
-  id        Int      @id @default(autoincrement())
-  userId    Int?
-  date      DateTime
-  startTime DateTime
-  endTime   DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  type      String
+  id         Int       @id @default(autoincrement())
+  userId     Int?
+  date       DateTime
+  startTime  DateTime
+  endTime    DateTime
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  clockedIn  DateTime?
+  clockedOut DateTime?
+  type       String
 
   user User? @relation(fields: [userId], references: [id])
 }

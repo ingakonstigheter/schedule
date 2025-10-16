@@ -1,5 +1,8 @@
-import { User} from "../lib/types";
-export const SEED_USERS: Pick<User, "email" | "firstName" | "lastName" | "role">[] = [
+import { User } from "../lib/types/types";
+export const SEED_USERS: Pick<
+  User,
+  "email" | "firstName" | "lastName" | "role"
+>[] = [
   {
     email: "admin@admin.se",
     firstName: "Admin",

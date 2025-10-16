@@ -135,6 +135,8 @@ exports.Prisma.ShiftScalarFieldEnum = {
   endTime: 'endTime',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  clockedIn: 'clockedIn',
+  clockedOut: 'clockedOut',
   type: 'type'
 };
 
