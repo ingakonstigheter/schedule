@@ -1,5 +1,5 @@
 "use server";
-import { setShift } from "@/lib/data/shifts";
+import { deleteShift, setShift } from "@/lib/data/shifts";
 import { NewShift } from "@/lib/types/types";
 import { NewShiftSchema } from "@/lib/zod";
 import { revalidatePath } from "next/cache";
@@ -16,10 +16,12 @@ export async function createShift(
   data: NewShift;
   dbError: string;
 }> {
-  console.log("inne");
-
+  const userIdInput =
+    (formData.get("userId") as string) === null
+      ? null
+      : parseInt(formData.get("userId") as string);
   const newShift: NewShift = {
-    userId: parseInt(formData.get("userId") as string) ?? null,
+    userId: userIdInput,
     date: new Date(formData.get("date") as string),
     startTime: new Date(
       `${formData.get("date") as string}T${formData.get("start") as string}`
@@ -35,6 +37,7 @@ export async function createShift(
   const result = NewShiftSchema.safeParse(newShift);
   if (!result.success) {
     const errors = z.flattenError(result.error);
+    console.log(errors);
     return {
       validationErrors: errors.fieldErrors,
       data: newShift,
@@ -53,4 +56,21 @@ export async function createShift(
   }
   revalidatePath("/");
   redirect("/schedules?success");
+}
+
+export async function deleteShiftAction(
+  prevState: unknown,
+  formData: FormData
+): Promise<{
+  data: number;
+  dbError: string | null;
+}> {
+  const id = parseInt(formData.get("id") as string);
+  const response = await deleteShift(id);
+  if (response.success) {
+    revalidatePath("/");
+    return { data: id, dbError: "" };
+  } else {
+    return { data: id, dbError: response.error };
+  }
 }

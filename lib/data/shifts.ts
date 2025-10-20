@@ -11,6 +11,17 @@ export async function setShift(shift: NewShift) {
     return { success: false, error: "Error creting shift:" };
   }
 }
+export async function deleteShift(id: number): Promise<DBResponse<number>> {
+  try {
+    await prisma.shift.delete({
+      where: { id: id },
+    });
+    return { success: true, data: id };
+  } catch (error) {
+    console.error("Error deleting shift:", error);
+    return { success: false, error: `Error deleting shift: ${id}` };
+  }
+}
 /* 
         export async function updateShiftEmployee(
   shiftId: Pick<Shift, "id">,
@@ -73,23 +84,7 @@ export async function updateShiftDate(id: Pick<Shift, "id">, newDate: Date) {
     return new Error("Failed to update shift date");
   }
 }
-export async function deleteShift(id: Pick<Shift, "id">) {
-  try {
-    const existingShift = await prisma.shift.findUnique({
-      where: { id: id },
-    });
-
-    if (existingShift) {
-      return await prisma.shift.delete({
-        where: { id: id },
-      });
-    }
-    return new Error("Shift not found");
-  } catch (error) {
-    console.error("Error deleting shift:", error);
-    return new Error("Failed to delete shift");
-  }
-} */
+*/
 export async function getAllShifts(): Promise<DBResponse<Shift[]>> {
   try {
     const shifts = await prisma.shift.findMany();
@@ -127,27 +122,10 @@ export async function getShiftById(id: number): Promise<DBResponse<Shift>> {
     if (shift) {
       return { success: true, data: shift };
     } else {
-      return { success: false, error: new Error("Shift not found") };
+      return { success: false, error: "Shift not found" };
     }
   } catch (error) {
     console.error("Error retrieving shift:", error);
     return { success: false, error: "Error retrieving shift:" };
   }
-} /* 
-export async function getShiftsByEmployee(employeeId: Pick<User, "id">) {
-  try {
-    return await prisma.shift.findMany({
-      where: {
-        employees: {
-          some: {
-            id: employeeId,
-          },
-        },
-      },
-    });
-  } catch (error) {
-    console.error("Error retrieving shifts:", error);
-    return new Error("Failed to retrieve shifts");
-  }
 }
- */

@@ -13,4 +13,4 @@ export type NewUser = Omit<
 
 export type DBResponse<T> =
   | { success: true; data: T }
-  | { success: false; error: String | Error };
+  | { success: false; error: string };

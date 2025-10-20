@@ -1,6 +1,7 @@
 import { getAllShifts } from "@/lib/data/shifts";
 import { formatTime, formatDate } from "@/lib/utils/date-format";
 import Link from "next/link";
+import DeleteButton from "../_components/delete-btn";
 export default async function Page() {
   const response = await getAllShifts();
   if (response.success) {
@@ -50,11 +51,7 @@ export default async function Page() {
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                         Edit
                       </Link>
-                      <Link
-                        href={`/${shift.id}`}
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                        Delete
-                      </Link>
+                      <DeleteButton id={shift.id}></DeleteButton>
                     </td>
                   </tr>
                 ))
