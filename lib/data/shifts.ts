@@ -1,18 +1,18 @@
-import { DBResponse, NewShift, Shift, User } from "../types/types";
+import { DBResponse, NewShift, Shift } from "../types/types";
 import { prisma } from "../prisma/prisma";
-/* 
-export async function createShift(shift: NewShift) {
+export async function setShift(shift: NewShift) {
   try {
-    const newShift: Shift = await prisma.shift.createAndReturn({
+    const newShift: Shift = await prisma.shift.create({
       data: shift,
     });
-    return newShift;
+    return { success: true, data: newShift };
   } catch (error) {
-    console.error("Error creating shift:", error);
-    return new Error("Failed to create shift");
+    console.error("Error creting shift:", error);
+    return { success: false, error: "Error creting shift:" };
   }
 }
-export async function updateShiftEmployee(
+/* 
+        export async function updateShiftEmployee(
   shiftId: Pick<Shift, "id">,
   employe: Pick<User, "id">
 ) {
@@ -96,7 +96,7 @@ export async function getAllShifts(): Promise<DBResponse<Shift[]>> {
     return { success: true, data: shifts };
   } catch (error) {
     console.error("Error retrieving shifts:", error);
-    return { success: false, error: new Error("Failed to retrieve shifts") };
+    return { success: false, error: "Failed to retrieve shifts" };
   }
 }
 export async function getSelectedShiftsByPeriod(
@@ -131,7 +131,7 @@ export async function getShiftById(id: number): Promise<DBResponse<Shift>> {
     }
   } catch (error) {
     console.error("Error retrieving shift:", error);
-    return { success: false, error: error as Error };
+    return { success: false, error: "Error retrieving shift:" };
   }
 } /* 
 export async function getShiftsByEmployee(employeeId: Pick<User, "id">) {

@@ -8,7 +8,9 @@ export default async function Page() {
 
     return (
       <>
-        <button className="btn self-end">New Shift</button>
+        <Link className="link" href={"/new"}>
+          New Shift
+        </Link>
         <div>
           <table className="table-fixed border-collapse text-left w-full border">
             <thead>

@@ -1,8 +1,8 @@
 import React from "react";
-import Form from "next/form";
 import { getShiftById } from "@/lib/data/shifts";
 import { redirect } from "next/navigation";
 import ShiftForm from "../_components/shift-form";
+import { getAllUsers } from "@/lib/data/employees";
 export default async function Page({
   params,
 }: {
@@ -15,10 +15,16 @@ export default async function Page({
       redirect("/admin/schedules?error=Shift not found");
     }
     const shift = response.data;
+    const employees = await getAllUsers();
     return (
-      <div>
+      <div className="grid gap-4">
         <h1>Edit Shift</h1>
-        <ShiftForm shift={shift}></ShiftForm>
+        {employees.success ? (
+          <ShiftForm shift={shift} employees={employees.data}>
+          </ShiftForm>
+        ) : (
+          <ShiftForm shift={shift}></ShiftForm>
+        )}
       </div>
     );
   }

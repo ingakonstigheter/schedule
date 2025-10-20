@@ -10,6 +10,13 @@ export const ShiftSchema = z.object({
   clockedIn: z.date().nullable(),
   clockedOut: z.date().nullable(),
   updatedAt: z.date(),
+  type: z.string(),
+  comment: z.string().max(500).nullable(),
+});
+export const NewShiftSchema = ShiftSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 export const UserSchema = z.object({
@@ -20,6 +27,5 @@ export const UserSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   role: z.string(),
-  // shifts är en lista av Shift-objekt (valfri, beroende på behov)
   shifts: z.array(ShiftSchema).optional(),
 });
