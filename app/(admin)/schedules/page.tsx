@@ -2,10 +2,24 @@ import { getAllShifts } from "@/lib/data/shifts";
 import { formatTime, formatDate } from "@/lib/utils/date-format";
 import Link from "next/link";
 import DeleteButton from "../_components/delete-btn";
+import { getAllUsers } from "@/lib/data/employees";
+import { User } from "@/lib/types/types";
+
+function getEmployeeNameById(id: number, employees: User[]) {
+  const employee = employees.find((user) => user.id === id);
+  return employee
+    ? `${employee.firstName} ${employee.lastName}`
+    : "Could not find the user";
+}
+
 export default async function Page() {
-  const response = await getAllShifts();
-  if (response.success) {
-    const shifts = response.data;
+  const shiftResponse = await getAllShifts();
+
+  if (shiftResponse.success) {
+    const shifts = shiftResponse.data;
+    const usersResponse = await getAllUsers();
+
+    const users = usersResponse.success ? usersResponse.data : [];
 
     return (
       <>
@@ -28,7 +42,9 @@ export default async function Page() {
                 shifts.map((shift) => (
                   <tr key={shift.id} className="border border-slate-300">
                     <td className=" p-2 w-1/4">
-                      {shift.userId ? shift.userId : "Empty"}
+                      {shift.userId
+                        ? getEmployeeNameById(shift.userId, users)
+                        : "Unassigned"}
                     </td>
                     <td className=" p-2 w-1/4">{formatDate(shift.date)}</td>
                     <td className=" p-2 w-1/4">

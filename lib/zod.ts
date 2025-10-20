@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const ShiftSchema = z.object({
   id: z.number().int(),
-  userId: z.number().int().nullable(),
+  userId: z.number().optional().nullable(),
   date: z.date(),
   startTime: z.date(),
   endTime: z.date(),

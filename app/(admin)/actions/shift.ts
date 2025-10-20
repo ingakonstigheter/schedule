@@ -4,6 +4,7 @@ import { NewShift } from "@/lib/types/types";
 import { NewShiftSchema } from "@/lib/zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { log } from "util";
 import z from "zod";
 
 export async function updateShift() {}
@@ -14,12 +15,13 @@ export async function createShift(
 ): Promise<{
   validationErrors: Record<string, String[]>;
   data: NewShift;
-  dbError: string;
+  dbError: string | null;
 }> {
   const userIdInput =
-    (formData.get("userId") as string) === null
+    (formData.get("employee") as string) === ""
       ? null
-      : parseInt(formData.get("userId") as string);
+      : parseInt(formData.get("employee") as string);
+
   const newShift: NewShift = {
     userId: userIdInput,
     date: new Date(formData.get("date") as string),
@@ -37,7 +39,8 @@ export async function createShift(
   const result = NewShiftSchema.safeParse(newShift);
   if (!result.success) {
     const errors = z.flattenError(result.error);
-    console.log(errors);
+    console.error(errors);
+
     return {
       validationErrors: errors.fieldErrors,
       data: newShift,
@@ -45,7 +48,6 @@ export async function createShift(
     };
   }
   const response = await setShift(result.data);
-  console.log(response.success);
 
   if (!response.success) {
     return {
@@ -55,7 +57,7 @@ export async function createShift(
     };
   }
   revalidatePath("/");
-  redirect("/schedules?success");
+  redirect("/schedules");
 }
 
 export async function deleteShiftAction(

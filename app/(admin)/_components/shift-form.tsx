@@ -6,9 +6,10 @@ import React, { useActionState } from "react";
 import { createShift, updateShift } from "../actions/shift";
 import Link from "next/link";
 import EmployeeSelector from "./employee-selector";
+import ValidationError from "@/app/components/error/validation-error";
 type ShiftFormProps = {
-  shift?: Shift;
-  employees?: User[];
+  shift: Shift | null;
+  employees: User[] | null;
 };
 
 export default function ShiftForm({ shift, employees }: ShiftFormProps) {
@@ -16,8 +17,8 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
   const [state, formAction, isPending] = useActionState(action, null);
   const data = state?.data ??
     shift ?? {
-      id: "",
-      userId: 0,
+      id: null,
+      userId: null,
       date: new Date(),
       startTime: "00:00",
       endTime: "00:00",
@@ -30,18 +31,7 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
       action={formAction}
       className="grid gap-4 text-xl grid-cols-2 max-w-lg border-2 rounded p-4 mx-auto"
       key={JSON.stringify(state?.data)}>
-      {/*       {data.id ? (
-        <input
-          type="number"
-          name="id"
-          id="id"
-          defaultValue={data.id}
-          className="hidden"
-        />
-      ) : (
-        ""
-      )} */}
-      <EmployeeSelector userId={data.userId ?? 0} />
+      <EmployeeSelector userId={data.userId} employees={employees} />
       <label htmlFor="date" className="flex gap-2">
         Date:
         <input
@@ -52,7 +42,9 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
           defaultValue={new Date(data.date).toISOString().split("T")[0]}
         />
       </label>
-
+      <ValidationError
+        errors={state?.validationErrors}
+        field="date"></ValidationError>
       <div className="grid grid-cols-2 gap-2 col-span-2">
         <label htmlFor="start" className="flex gap-2">
           Start:
@@ -68,7 +60,11 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
             })}
             required
           />
+          <ValidationError
+            errors={state?.validationErrors}
+            field="start"></ValidationError>
         </label>
+
         <label htmlFor="end" className="flex gap-2">
           End:
           <input
@@ -83,6 +79,9 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
             })}
             required
           />
+          <ValidationError
+            errors={state?.validationErrors}
+            field="end"></ValidationError>
         </label>
       </div>
       <label htmlFor="type" className="flex gap-2">
@@ -95,6 +94,9 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
           className="border-2 rounded px-2"
         />
       </label>
+      <ValidationError
+        errors={state?.validationErrors}
+        field="type"></ValidationError>
       <div className="col-span-2 flex flex-col">
         <label htmlFor="comment">Comment:</label>
         <textarea
@@ -103,7 +105,11 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
           id="comment"
           rows={4}
           defaultValue={data.comment ?? ""}></textarea>
+        <ValidationError
+          errors={state?.validationErrors}
+          field="comment"></ValidationError>
       </div>
+      {state?.dbError && <p>{state.dbError}</p>}
       <div className="flex gap-2 col-start-2">
         <button type="submit" className="btn ">
           Submit

@@ -7,6 +7,6 @@ export async function getAllUsers(): Promise<DBResponse<User[]>> {
     return { success: true, data: users };
   } catch (error) {
     console.error("Error retrieving users:", error);
-    return { success: false, error: new Error("Failed to retrieve users") };
+    return { success: false, error: "Failed to retrieve users" };
   }
 }

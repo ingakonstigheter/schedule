@@ -5,12 +5,12 @@ export default function EmployeeSelector({
   userId,
   employees,
 }: {
-  userId?: number;
-  employees?: User[];
+  userId?: number | null;
+  employees?: User[] | null;
 }) {
   return (
     <div className="grid gap-2 col-span-2">
-      {employees && employees.length > 0 ? (
+      {employees ? (
         <>
           <label htmlFor="employee" className="hidden ">
             Employee:
@@ -18,7 +18,7 @@ export default function EmployeeSelector({
           <select
             name="employee"
             id="employee"
-            defaultValue={userId}
+            defaultValue={userId ? userId : ""}
             className="border rounded">
             <option value="">Select an employee</option>
             {employees.map((employee) => (
@@ -33,7 +33,7 @@ export default function EmployeeSelector({
           No employees found.
           <Link
             href={"employees"}
-            className="link rounded px-2  bg-red-200 rounded hover:bg-red-300">
+            className="link px-2  bg-red-200 rounded hover:bg-red-300">
             Manage Employees
           </Link>
         </span>
