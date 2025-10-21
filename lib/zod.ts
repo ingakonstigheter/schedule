@@ -13,12 +13,12 @@ export const ShiftSchema = z.object({
   type: z.string(),
   comment: z.string().max(500).nullable(),
 });
-export const NewShiftSchema = ShiftSchema.omit({
-  id: true,
+export const ShiftActionSchema = ShiftSchema.omit({
   createdAt: true,
   updatedAt: true,
+  clockedOut: true,
+  clockedIn: true,
 });
-
 export const UserSchema = z.object({
   id: z.number().int(),
   email: z.email(),

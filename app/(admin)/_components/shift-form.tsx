@@ -1,23 +1,23 @@
 "use client";
 
-import { Shift, User } from "@/lib/types/types";
+import { ShiftAction, User } from "@/lib/types/types";
 import Form from "next/form";
 import React, { useActionState } from "react";
-import { createShift, updateShift } from "../actions/shift";
+import { createShiftAction, updateShiftAction } from "../actions/shift";
 import Link from "next/link";
 import EmployeeSelector from "./employee-selector";
 import ValidationError from "@/app/components/error/validation-error";
 type ShiftFormProps = {
-  shift: Shift | null;
+  shift: ShiftAction | null;
   employees: User[] | null;
 };
 
 export default function ShiftForm({ shift, employees }: ShiftFormProps) {
-  const action = /*  shift ? updateShift : */ createShift;
+  const action = shift ? updateShiftAction : createShiftAction;
   const [state, formAction, isPending] = useActionState(action, null);
   const data = state?.data ??
     shift ?? {
-      id: null,
+      id: 0,
       userId: null,
       date: new Date(),
       startTime: "00:00",
@@ -31,6 +31,7 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
       action={formAction}
       className="grid gap-4 text-xl grid-cols-2 max-w-lg border-2 rounded p-4 mx-auto"
       key={JSON.stringify(state?.data)}>
+      <input type="number" name="id" id="id" defaultValue={data.id} hidden />
       <EmployeeSelector userId={data.userId} employees={employees} />
       <label htmlFor="date" className="flex gap-2">
         Date:
@@ -42,9 +43,11 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
           defaultValue={new Date(data.date).toISOString().split("T")[0]}
         />
       </label>
-      <ValidationError
-        errors={state?.validationErrors}
-        field="date"></ValidationError>
+      {state?.validationErrors && (
+        <ValidationError
+          errors={state?.validationErrors}
+          field="date"></ValidationError>
+      )}
       <div className="grid grid-cols-2 gap-2 col-span-2">
         <label htmlFor="start" className="flex gap-2">
           Start:
@@ -60,9 +63,11 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
             })}
             required
           />
-          <ValidationError
-            errors={state?.validationErrors}
-            field="start"></ValidationError>
+          {state?.validationErrors && (
+            <ValidationError
+              errors={state?.validationErrors}
+              field="start"></ValidationError>
+          )}
         </label>
 
         <label htmlFor="end" className="flex gap-2">
@@ -79,9 +84,11 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
             })}
             required
           />
-          <ValidationError
-            errors={state?.validationErrors}
-            field="end"></ValidationError>
+          {state?.validationErrors && (
+            <ValidationError
+              errors={state?.validationErrors}
+              field="end"></ValidationError>
+          )}
         </label>
       </div>
       <label htmlFor="type" className="flex gap-2">
@@ -94,9 +101,11 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
           className="border-2 rounded px-2"
         />
       </label>
-      <ValidationError
-        errors={state?.validationErrors}
-        field="type"></ValidationError>
+      {state?.validationErrors && (
+        <ValidationError
+          errors={state?.validationErrors}
+          field="type"></ValidationError>
+      )}
       <div className="col-span-2 flex flex-col">
         <label htmlFor="comment">Comment:</label>
         <textarea
@@ -105,9 +114,11 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
           id="comment"
           rows={4}
           defaultValue={data.comment ?? ""}></textarea>
-        <ValidationError
-          errors={state?.validationErrors}
-          field="comment"></ValidationError>
+        {state?.validationErrors && (
+          <ValidationError
+            errors={state?.validationErrors}
+            field="comment"></ValidationError>
+        )}
       </div>
       {state?.dbError && <p>{state.dbError}</p>}
       <div className="flex gap-2 col-start-2">

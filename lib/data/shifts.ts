@@ -1,6 +1,8 @@
-import { DBResponse, NewShift, Shift } from "../types/types";
+import { DBResponse, Shift, ShiftAction } from "../types/types";
 import { prisma } from "../prisma/prisma";
-export async function setShift(shift: NewShift) {
+export async function setShift(
+  shift: ShiftAction
+): Promise<DBResponse<ShiftAction>> {
   try {
     const newShift: Shift = await prisma.shift.create({
       data: shift,
@@ -22,69 +24,28 @@ export async function deleteShift(id: number): Promise<DBResponse<number>> {
     return { success: false, error: `Error deleting shift: ${id}` };
   }
 }
-/* 
-        export async function updateShiftEmployee(
-  shiftId: Pick<Shift, "id">,
-  employe: Pick<User, "id">
-) {
+export async function updateShift(
+  shift: ShiftAction
+): Promise<DBResponse<ShiftAction>> {
   try {
-    const existingShift = await prisma.shift.findUnique({
-      where: { id: shiftId },
+    await prisma.shift.update({
+      where: { id: shift.id },
+      data: {
+        userId: shift.userId ?? shift.userId,
+        date: shift.date,
+        startTime: shift.startTime,
+        endTime: shift.endTime,
+        type: shift.type,
+        comment: shift.comment,
+        updatedAt: new Date(Date.now()),
+      },
     });
-
-    if (existingShift) {
-      return await prisma.shift.update({
-        where: { id: shiftId },
-        data: { employees: { connect: { id: employe.id } } },
-      });
-    }
-    return new Error("Shift not found");
+    return { success: true, data: shift };
   } catch (error) {
     console.error("Error updating shift employee:", error);
-    return new Error("Failed to update shift employee");
+    return { success: false, error: "Failed to update shift employee" };
   }
 }
-export async function updateShiftTime(
-  id: Pick<Shift, "id">,
-  newStart: Date,
-  newEnd: Date
-) {
-  try {
-    const existingShift = await prisma.shift.findUnique({
-      where: { id: id },
-    });
-
-    if (existingShift) {
-      return await prisma.shift.update({
-        where: { id: id },
-        data: { startTime: newStart, endTime: newEnd },
-      });
-    }
-    return new Error("Shift not found");
-  } catch (error) {
-    console.error("Error updating shift time:", error);
-    return new Error("Failed to update shift time");
-  }
-}
-export async function updateShiftDate(id: Pick<Shift, "id">, newDate: Date) {
-  try {
-    const existingShift = await prisma.shift.findUnique({
-      where: { id: id },
-    });
-
-    if (existingShift) {
-      return await prisma.shift.update({
-        where: { id: id },
-        data: { date: newDate },
-      });
-    }
-    return new Error("Shift not found");
-  } catch (error) {
-    console.error("Error updating shift date:", error);
-    return new Error("Failed to update shift date");
-  }
-}
-*/
 export async function getAllShifts(): Promise<DBResponse<Shift[]>> {
   try {
     const shifts = await prisma.shift.findMany();
