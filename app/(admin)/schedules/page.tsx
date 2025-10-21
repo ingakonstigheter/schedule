@@ -33,7 +33,6 @@ export default async function Page() {
                 <th className=" p-2">Employee</th>
                 <th className=" p-2 ">Date</th>
                 <th className=" p-2">Time</th>
-                <th className=" p-2">Total</th>
                 <th className=" p-2">Actions</th>
               </tr>
             </thead>
@@ -54,13 +53,12 @@ export default async function Page() {
                           {formatTime(shift.endTime)}
                         </p>
                         <p className="font-bold bg-red-300 rounded w-fit px-2">
-                          {shift.clockedIn
-                            ? formatTime(shift.clockedIn)
-                            : "Not clocked in"}
+                          <span className="font-bold">
+                            {`${shift.clockedIn ? formatTime(shift.clockedIn) : "hh-mm"} - ${shift.clockedOut ? formatTime(shift.clockedOut) : "hh-mm"}`}
+                          </span>
                         </p>
                       </div>
                     </td>
-                    <td>3</td>
                     <td className="p-2 w-1/4 flex gap-2">
                       <Link
                         href={`/${shift.id}`}

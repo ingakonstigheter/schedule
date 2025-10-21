@@ -97,7 +97,6 @@ export async function updateShiftAction(
     comment: formData.get("comment") as string,
     id: parseInt(formData.get("id") as string),
   };
-  console.log(toUpdateShift.id);
 
   const result = ShiftActionSchema.safeParse(toUpdateShift);
   if (!result.success) {

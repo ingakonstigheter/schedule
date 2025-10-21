@@ -19,7 +19,7 @@ async function Header() {
         <nav>
           <ul className="flex gap-4">
             <li>
-              <Link href={""}>My Schedule</Link>
+              <Link href={"/my-schedule"}>My Schedule</Link>
             </li>
 
             {isAdmin && (
@@ -36,11 +36,14 @@ async function Header() {
         </nav>
       </SignedIn>
       <SignedOut>
-        <SignInButton>
+        <div className="flex gap-2">
+          <SignInButton>
+            <button className="nav-link">Sign in</button>
+          </SignInButton>
           <SignUpButton>
-            <button className="nav-link">Log in</button>
+            <button className="nav-link">Register</button>
           </SignUpButton>
-        </SignInButton>
+        </div>
       </SignedOut>
       <SignedIn>
         <UserButton />

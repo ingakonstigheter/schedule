@@ -18,15 +18,11 @@ export default function Home() {
       <div className="flex gap-4 justify-center mt-8">
         <SignedOut>
           <SignInButton>
-            <SignUpButton>
-              <button className="btn">Sign in</button>
-            </SignUpButton>
+            <button className="btn">Sign in</button>
           </SignInButton>
-          <SignInButton>
-            <SignUpButton>
-              <button className="btn">Register</button>
-            </SignUpButton>
-          </SignInButton>
+          <SignUpButton>
+            <button className="btn">Register</button>
+          </SignUpButton>
         </SignedOut>
         <Link className="btn" href="/about">
           Read More
