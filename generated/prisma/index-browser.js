@@ -135,7 +135,10 @@ exports.Prisma.ShiftScalarFieldEnum = {
   endTime: 'endTime',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  type: 'type'
+  clockedIn: 'clockedIn',
+  clockedOut: 'clockedOut',
+  type: 'type',
+  comment: 'comment'
 };
 
 exports.Prisma.SortOrder = {

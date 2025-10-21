@@ -32,9 +32,12 @@ body {
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
 }
-@layer components {
+ @layer components {
   .btn {
-    @apply font-sans bg-blue-500 text-white rounded hover:bg-blue-600 /*  dark:bg-blue-900 dark:hover:bg-blue-800 */ max-h-min ease-in-out p-4 font-bold text-xl;
+    @apply font-sans bg-blue-500 text-white rounded hover:bg-blue-600 /*  dark:bg-blue-900 dark:hover:bg-blue-800 */ max-h-min ease-in-out p-4 font-bold text-xl hover:cursor-pointer;
+  }
+  .btn-cancel {
+    @apply bg-red-500 hover:bg-red-600 /*  dark:bg-red-900 dark:hover:bg-red-800 */;
   }
   .nav-link {
     @apply text-lg font-sans text-text-secondary hover:text-blue-300 hover:cursor-pointer;

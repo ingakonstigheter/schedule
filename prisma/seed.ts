@@ -1,5 +1,6 @@
 import { SEED_USERS } from "./const";
 import { PrismaClient } from "../generated/prisma";
+import { formatDate, formatTime } from "../lib/utils/date-format";
 const prisma = new PrismaClient();
 
 async function main() {
@@ -15,9 +16,9 @@ async function main() {
   });
   await prisma.shift.create({
     data: {
-      date: new Date(),
-      startTime: new Date(),
-      endTime: new Date(Date.now() + 8 * 60 * 60 * 1000),
+      date: formatDate(new Date()),
+      startTime: formatTime(new Date()),
+      endTime: formatTime(new Date(Date.now() + 8 * 60 * 60 * 1000)),
       type: "Loading cargo",
     },
   });

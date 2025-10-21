@@ -2,14 +2,23 @@ import { z } from "zod";
 
 export const ShiftSchema = z.object({
   id: z.number().int(),
-  userId: z.number().int(),
-  date: z.string(),
-  startTime: z.string(),
-  endTime: z.string(),
+  userId: z.number().optional().nullable(),
+  date: z.date(),
+  startTime: z.date(),
+  endTime: z.date(),
   createdAt: z.date(),
+  clockedIn: z.date().nullable(),
+  clockedOut: z.date().nullable(),
   updatedAt: z.date(),
+  type: z.string(),
+  comment: z.string().max(500).nullable(),
 });
-
+export const ShiftActionSchema = ShiftSchema.omit({
+  createdAt: true,
+  updatedAt: true,
+  clockedOut: true,
+  clockedIn: true,
+});
 export const UserSchema = z.object({
   id: z.number().int(),
   email: z.email(),
@@ -18,7 +27,5 @@ export const UserSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   role: z.string(),
-  // shifts är en lista av Shift-objekt (valfri, beroende på behov)
   shifts: z.array(ShiftSchema).optional(),
 });
-
