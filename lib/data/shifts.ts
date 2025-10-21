@@ -1,16 +1,18 @@
 import { DBResponse, Shift, ShiftAction } from "../types/types";
 import { prisma } from "../prisma/prisma";
+
 export async function setShift(
   shift: ShiftAction
 ): Promise<DBResponse<ShiftAction>> {
   try {
+    const { id, ...data } = shift;
     const newShift: Shift = await prisma.shift.create({
-      data: shift,
+      data,
     });
     return { success: true, data: newShift };
   } catch (error) {
-    console.error("Error creting shift:", error);
-    return { success: false, error: "Error creting shift:" };
+    console.error("Error creating shift:", error);
+    return { success: false, error: "Error creating shift" };
   }
 }
 export async function deleteShift(id: number): Promise<DBResponse<number>> {
@@ -55,6 +57,24 @@ export async function getAllShifts(): Promise<DBResponse<Shift[]>> {
     return { success: false, error: "Failed to retrieve shifts" };
   }
 }
+export async function getAllShiftsByUserId(
+  id: number
+): Promise<DBResponse<Shift[]>> {
+  try {
+    const shifts = await prisma.shift.findMany({
+      where: {
+        userId: id,
+      },
+      orderBy: {
+        date: "desc",
+      },
+    });
+    return { success: true, data: shifts };
+  } catch (error) {
+    console.error("Error retrieving shifts:", error);
+    return { success: false, error: "Failed to retrieve shifts" };
+  }
+}
 export async function getSelectedShiftsByPeriod(
   startDate: Date,
   endDate: Date
@@ -88,5 +108,37 @@ export async function getShiftById(id: number): Promise<DBResponse<Shift>> {
   } catch (error) {
     console.error("Error retrieving shift:", error);
     return { success: false, error: "Error retrieving shift:" };
+  }
+}
+
+export async function clockIn(id: number): Promise<DBResponse<number>> {
+  try {
+    await prisma.shift.update({
+      where: { id: id },
+      data: {
+        clockedIn: new Date(Date.now()),
+        updatedAt: new Date(Date.now()),
+      },
+    });
+    return { success: true, data: id };
+  } catch (error) {
+    console.error("Error updating shift employee:", error);
+    return { success: false, error: "Failed to update shift employee" };
+  }
+}
+
+export async function clockOut(id: number): Promise<DBResponse<number>> {
+  try {
+    await prisma.shift.update({
+      where: { id: id },
+      data: {
+        clockedOut: new Date(Date.now()),
+        updatedAt: new Date(Date.now()),
+      },
+    });
+    return { success: true, data: id };
+  } catch (error) {
+    console.error("Error updating shift employee:", error);
+    return { success: false, error: "Failed to update shift employee" };
   }
 }
