@@ -1,5 +1,5 @@
 import { DBResponse, Shift, ShiftAction } from "../types/types";
-import { prisma } from "../prisma/prisma";
+import { prisma } from "../prisma";
 
 export async function setShift(
   shift: ShiftAction

@@ -1,4 +1,4 @@
-import { SEED_USERS } from "./const";
+/* import { SEED_USERS } from "./const";
 import { PrismaClient } from "../generated/prisma";
 import { formatDate, formatTime } from "../lib/utils/date-format";
 
@@ -19,14 +19,6 @@ async function main() {
       });
     })
   );
-  await prisma.shift.create({
-    data: {
-      date: formatDate(new Date()),
-      startTime: formatTime(new Date()),
-      endTime: formatTime(new Date(Date.now() + 8 * 60 * 60 * 1000)),
-      type: "Loading cargo",
-    },
-  });
 }
 
 main()
@@ -38,3 +30,5 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+ 
+ */
