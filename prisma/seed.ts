@@ -1,19 +1,24 @@
 import { SEED_USERS } from "./const";
 import { PrismaClient } from "../generated/prisma";
 import { formatDate, formatTime } from "../lib/utils/date-format";
+
 const prisma = new PrismaClient();
 
 async function main() {
-  SEED_USERS.map(async (user) => {
-    await prisma.user.create({
-      data: {
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
-      },
-    });
-  });
+  await Promise.all(
+    SEED_USERS.map((user) => {
+      return prisma.user.upsert({
+        where: { email: user.email },
+        update: {},
+        create: {
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          role: user.role,
+        },
+      });
+    })
+  );
   await prisma.shift.create({
     data: {
       date: formatDate(new Date()),

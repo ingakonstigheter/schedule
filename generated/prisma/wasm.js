@@ -35,12 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.17.0
- * Query Engine version: c0aafc03b8ef6cdced8654b9a817999e02457d6a
+ * Prisma Client JS version: 6.18.0
+ * Query Engine version: 34b5a692b7bd79939a9a2c3ef97d816e749cda2f
  */
 Prisma.prismaVersion = {
-  client: "6.17.0",
-  engine: "c0aafc03b8ef6cdced8654b9a817999e02457d6a"
+  client: "6.18.0",
+  engine: "34b5a692b7bd79939a9a2c3ef97d816e749cda2f"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -86,6 +86,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -116,6 +119,11 @@ exports.Prisma.ShiftScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
 exports.Prisma.NullsOrder = {
@@ -161,13 +169,12 @@ const config = {
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
-  "clientVersion": "6.17.0",
-  "engineVersion": "c0aafc03b8ef6cdced8654b9a817999e02457d6a",
+  "clientVersion": "6.18.0",
+  "engineVersion": "34b5a692b7bd79939a9a2c3ef97d816e749cda2f",
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
-  "postinstall": false,
+  "activeProvider": "postgresql",
   "inlineDatasources": {
     "db": {
       "url": {
@@ -176,8 +183,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  firstName String\n  lastName  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  shifts    Shift[]\n  role      String\n}\n\nmodel Shift {\n  id         Int       @id @default(autoincrement())\n  userId     Int?\n  date       DateTime\n  startTime  DateTime\n  endTime    DateTime\n  createdAt  DateTime  @default(now())\n  updatedAt  DateTime  @updatedAt\n  clockedIn  DateTime?\n  clockedOut DateTime?\n  type       String\n  comment    String?\n\n  user User? @relation(fields: [userId], references: [id])\n}\n",
-  "inlineSchemaHash": "f8f40403e0ff61c163766044f347711f9dba288abe05e9846e8e8f6be80a2c24",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  firstName String\n  lastName  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  shifts    Shift[]\n  role      String\n}\n\nmodel Shift {\n  id         Int       @id @default(autoincrement())\n  userId     Int?\n  date       DateTime\n  startTime  DateTime\n  endTime    DateTime\n  createdAt  DateTime  @default(now())\n  updatedAt  DateTime  @updatedAt\n  clockedIn  DateTime?\n  clockedOut DateTime?\n  type       String\n  comment    String?\n\n  user User? @relation(fields: [userId], references: [id])\n}\n",
+  "inlineSchemaHash": "dd9cd246c08ed4cdfb3744f3cdc45078e947c28f2a1b4d98ec23a66ccf0b60f4",
   "copyEngine": true
 }
 config.dirname = '/'
