@@ -35,12 +35,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.17.0
- * Query Engine version: c0aafc03b8ef6cdced8654b9a817999e02457d6a
+ * Prisma Client JS version: 6.18.0
+ * Query Engine version: 34b5a692b7bd79939a9a2c3ef97d816e749cda2f
  */
 Prisma.prismaVersion = {
-  client: "6.17.0",
-  engine: "c0aafc03b8ef6cdced8654b9a817999e02457d6a"
+  client: "6.18.0",
+  engine: "34b5a692b7bd79939a9a2c3ef97d816e749cda2f"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -86,11 +86,15 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
+  clerkUserId: 'clerkUserId',
   email: 'email',
   firstName: 'firstName',
   lastName: 'lastName',
@@ -116,6 +120,11 @@ exports.Prisma.ShiftScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
 exports.Prisma.NullsOrder = {
@@ -161,13 +170,12 @@ const config = {
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
-  "clientVersion": "6.17.0",
-  "engineVersion": "c0aafc03b8ef6cdced8654b9a817999e02457d6a",
+  "clientVersion": "6.18.0",
+  "engineVersion": "34b5a692b7bd79939a9a2c3ef97d816e749cda2f",
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
-  "postinstall": false,
+  "activeProvider": "postgresql",
   "inlineDatasources": {
     "db": {
       "url": {
@@ -176,13 +184,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  firstName String\n  lastName  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n  shifts    Shift[]\n  role      String\n}\n\nmodel Shift {\n  id         Int       @id @default(autoincrement())\n  userId     Int?\n  date       DateTime\n  startTime  DateTime\n  endTime    DateTime\n  createdAt  DateTime  @default(now())\n  updatedAt  DateTime  @updatedAt\n  clockedIn  DateTime?\n  clockedOut DateTime?\n  type       String\n  comment    String?\n\n  user User? @relation(fields: [userId], references: [id])\n}\n",
-  "inlineSchemaHash": "f8f40403e0ff61c163766044f347711f9dba288abe05e9846e8e8f6be80a2c24",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nmodel User {\n  id          Int      @id @default(autoincrement())\n  clerkUserId String   @unique\n  email       String   @unique\n  firstName   String\n  lastName    String\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n  shifts      Shift[]\n  role        String\n}\n\nmodel Shift {\n  id         Int       @id @default(autoincrement())\n  userId     Int?\n  date       DateTime\n  startTime  DateTime\n  endTime    DateTime\n  createdAt  DateTime  @default(now())\n  updatedAt  DateTime  @updatedAt\n  clockedIn  DateTime?\n  clockedOut DateTime?\n  type       String\n  comment    String?\n\n  user User? @relation(fields: [userId], references: [id])\n}\n",
+  "inlineSchemaHash": "90f8e114ff79b98897d54a778bb149b913af3c1830e537a9b917c16bd8932b63",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"shifts\",\"kind\":\"object\",\"type\":\"Shift\",\"relationName\":\"ShiftToUser\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Shift\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"clockedIn\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"clockedOut\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"comment\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ShiftToUser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"clerkUserId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"shifts\",\"kind\":\"object\",\"type\":\"Shift\",\"relationName\":\"ShiftToUser\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Shift\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"date\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"startTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"clockedIn\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"clockedOut\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"type\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"comment\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ShiftToUser\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

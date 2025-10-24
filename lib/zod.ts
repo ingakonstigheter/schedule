@@ -20,6 +20,7 @@ export const ShiftActionSchema = ShiftSchema.omit({
   clockedIn: true,
 });
 export const UserSchema = z.object({
+  clerkUserId: z.string(),
   id: z.number().int(),
   email: z.email(),
   firstName: z.string(),
