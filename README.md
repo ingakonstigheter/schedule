@@ -11,9 +11,6 @@
 - ⚙️ [Installation](#-installation)
 - 🚀 [Användning](#-användning)
 - 📂 [Projektstruktur](#-projektstruktur)
-- 🗓 [Sprintplan](#-sprintplan)
-- 🤝 [Bidra](#-bidra)
-- 📚 [Lärdomar](#-lärdomar)
 - 📜 [Licens](#-licens)
 
 ---
