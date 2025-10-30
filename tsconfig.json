@@ -26,7 +26,8 @@
     "next-env.d.ts",
     "app/**/*.ts",
     "app/**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "app/sign-in"
   ],
   "exclude": ["node_modules"]
 }

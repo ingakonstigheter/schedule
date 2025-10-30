@@ -40,3 +40,25 @@ export async function deleteUser(
     return { success: false, error: "Failed to delete user" };
   }
 }
+
+export async function getUserRole(clerkUserId: string) {
+  const user = await prisma.user.findUnique({
+    where: { clerkUserId: clerkUserId },
+    select: { role: true },
+  });
+  if (!user) {
+    return { success: true, error: "Failed to find the user" };
+  }
+  return { success: true, data: user.role };
+}
+
+export async function getUserId(clerkUserId: string) {
+  const user = await prisma.user.findUnique({
+    where: { clerkUserId: clerkUserId },
+    select: { id: true },
+  });
+  if (!user) {
+    return { success: true, error: "Failed to find the user" };
+  }
+  return { success: true, data: user.id };
+}

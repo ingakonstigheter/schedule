@@ -23,7 +23,7 @@ model User {
   lastName    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  shifts      Shift[] 
+  shifts      Shift[]
   role        String
 }
 

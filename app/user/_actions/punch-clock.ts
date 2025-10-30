@@ -12,14 +12,13 @@ export async function clockInAction(
   dbError: string | null;
 }> {
   const id = parseInt(formData.get("id") as string);
-  console.log(id);
 
   const response = await clockIn(id);
   if (!response.success) {
     return { data: id, dbError: response.error };
   }
   revalidatePath("/");
-  redirect("/my-schedule");
+  redirect("/user/my-schedule");
 }
 
 export async function clockOutAction(
@@ -30,13 +29,12 @@ export async function clockOutAction(
   dbError: string | null;
 }> {
   const id = parseInt(formData.get("id") as string);
-  console.log(id);
 
   const response = await clockOut(id);
   if (!response.success) {
     return { data: id, dbError: response.error };
   }
   revalidatePath("/");
-  redirect("/my-schedule");
+  redirect("/user/my-schedule");
 }
 export { clockIn, clockOut };

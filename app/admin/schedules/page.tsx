@@ -2,7 +2,7 @@ import { getAllShifts } from "@/lib/data/shifts";
 import { formatTime, formatDate } from "@/lib/utils/date-format";
 import Link from "next/link";
 import DeleteButton from "../_components/delete-btn";
-import { getAllUsers } from "@/lib/data/employees";
+import { getAllUsers } from "@/lib/data/user";
 import { User } from "@/lib/types/types";
 
 function getEmployeeNameById(id: number, employees: User[]) {
@@ -23,7 +23,7 @@ export default async function Page() {
 
     return (
       <>
-        <Link className="link" href={"/new"}>
+        <Link className="link" href={"/admin/new"}>
           New Shift
         </Link>
         <div>
@@ -49,19 +49,19 @@ export default async function Page() {
                     <td className=" p-2 w-1/4">
                       <div className="grid gap-1">
                         <p className="font-bold bg-blue-300 rounded w-fit px-2">
-                          {formatTime(shift.startTime)} -{" "}
+                          {formatTime(shift.startTime)} -
                           {formatTime(shift.endTime)}
                         </p>
                         <p className="font-bold bg-red-300 rounded w-fit px-2">
                           <span className="font-bold">
-                            {`${shift.clockedIn ? formatTime(shift.clockedIn) : "hh-mm"} - ${shift.clockedOut ? formatTime(shift.clockedOut) : "hh-mm"}`}
+                            {`${shift.clockedIn ? formatTime(shift.clockedIn) : ""} - ${shift.clockedOut ? formatTime(shift.clockedOut) : ""}`}
                           </span>
                         </p>
                       </div>
                     </td>
                     <td className="p-2 w-1/4 flex gap-2">
                       <Link
-                        href={`/${shift.id}`}
+                        href={`/admin/${shift.id}`}
                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                         Edit
                       </Link>

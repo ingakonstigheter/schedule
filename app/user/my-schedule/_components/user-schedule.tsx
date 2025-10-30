@@ -25,7 +25,7 @@ export default function UserSchedule({ shifts }: { shifts: Shift[] }) {
                   </p>
                   <p className="font-bold bg-red-300 rounded w-fit px-2">
                     <span className="font-bold">
-                      {`${shift.clockedIn ? formatTime(shift.clockedIn) : "hh-mm"} - ${shift.clockedOut ? formatTime(shift.clockedOut) : "hh-mm"}`}
+                      {`${shift.clockedIn ? formatTime(shift.clockedIn) : ""} - ${shift.clockedOut ? formatTime(shift.clockedOut) : ""}`}
                     </span>
                   </p>
                 </div>

@@ -53,7 +53,7 @@ export async function createShiftAction(
     };
   }
   revalidatePath("/");
-  redirect("/schedules");
+  redirect("/admin/schedules");
 }
 export async function deleteShiftAction(
   prevState: unknown,

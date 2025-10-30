@@ -3,10 +3,10 @@
 import { ShiftAction, User } from "@/lib/types/types";
 import Form from "next/form";
 import React, { useActionState } from "react";
-import { createShiftAction, updateShiftAction } from "../actions/shift";
+import { createShiftAction, updateShiftAction } from "../_actions/shift";
 import Link from "next/link";
 import EmployeeSelector from "./employee-selector";
-import ValidationError from "@/app/components/error/validation-error";
+import ValidationError from "@/components/error/validation-error";
 type ShiftFormProps = {
   shift: ShiftAction | null;
   employees: User[] | null;
@@ -125,7 +125,7 @@ export default function ShiftForm({ shift, employees }: ShiftFormProps) {
         <button type="submit" className="btn ">
           Submit
         </button>
-        <Link href="/schedules" className="btn btn-cancel">
+        <Link href="/admin/schedules" className="btn btn-cancel">
           Cancel
         </Link>
       </div>

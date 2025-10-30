@@ -1,6 +1,6 @@
 "use client";
 import React, { useActionState } from "react";
-import { deleteShiftAction } from "../actions/shift";
+import { deleteShiftAction } from "../_actions/shift";
 import Form from "next/form";
 
 export default function DeleteButton({ id }: { id: number }) {

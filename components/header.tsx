@@ -19,16 +19,13 @@ async function Header() {
         <nav>
           <ul className="flex gap-4">
             <li>
-              <Link href={"/my-schedule"}>My Schedule</Link>
+              <Link href={"/user/my-schedule"}>My Schedule</Link>
             </li>
 
             {isAdmin && (
               <>
                 <li>
-                  <Link href={"/schedules"}>Schedules</Link>
-                </li>
-                <li>
-                  <Link href={"/employees"}>Employees</Link>
+                  <Link href={"/admin/schedules"}>Schedules</Link>
                 </li>
               </>
             )}

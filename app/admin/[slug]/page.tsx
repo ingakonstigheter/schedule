@@ -2,7 +2,7 @@ import React from "react";
 import { getShiftById } from "@/lib/data/shifts";
 import { redirect } from "next/navigation";
 import ShiftForm from "../_components/shift-form";
-import { getAllUsers } from "@/lib/data/employees";
+import { getAllUsers } from "@/lib/data/user";
 export default async function Page({
   params,
 }: {
